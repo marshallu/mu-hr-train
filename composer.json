@@ -1,0 +1,23 @@
+{
+	"name": "marshallu/mu-hr-train",
+	"description": "Plugin that allows for HR trainings to be created and individuals register for sessions on the Marshall website.",
+	"keywords": ["wordpress", "plugin"],
+	"homepage": "https://github.com/marshallu/mu-cos-posters",
+	"license": "MIT",
+	"type": "wordpress-plugin",
+	"require": {
+		"nesbot/carbon": "^2.55",
+        "jasig/phpcas": "^1.4"
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "@stable",
+		"wp-coding-standards/wpcs": "^3.1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+		"php-stubs/acf-pro-stubs": "^6.0"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
+}

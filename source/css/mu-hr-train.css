@@ -1,0 +1,57 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.acf-error-message {
+	@apply font-bold text-red-500;
+}
+
+#new-registration .acf-field {
+	@apply grid gap-4 grid-cols-1 w-full;
+}
+
+#new-registration .acf-field .acf-label {
+	@apply w-full;
+}
+
+#new-registration .acf-field .acf-input {
+	@apply w-full;
+}
+
+.acf-fields.acf-form-fields {
+	@apply flex flex-col items-center w-full;
+}
+
+.acf-form-submit {
+	@apply mt-6 text-center;
+}
+
+@screen lg {
+	.acf-fields.acf-form-fields {
+		@apply w-3/4 mx-auto;
+	}
+
+	#new-registration .acf-field {
+		@apply grid gap-4 grid-cols-2 w-full;
+	}
+
+	#new-registration .acf-field .acf-input {
+		@apply ml-4;
+	}
+
+	.acf-input-wrap {
+		/* @apply px-4; */
+	}
+
+	.acf-input-wrap input {
+		@apply w-full;
+	}
+}
+
+#new-registration .acf-field.acf-hidden {
+	display: none !important;
+}
+
+hidden {
+	display: none !important;
+}
