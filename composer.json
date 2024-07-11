@@ -2,7 +2,7 @@
 	"name": "marshallu/mu-hr-train",
 	"description": "Plugin that allows for HR trainings to be created and individuals register for sessions on the Marshall website.",
 	"keywords": ["wordpress", "plugin"],
-	"homepage": "https://github.com/marshallu/mu-cos-posters",
+	"homepage": "https://github.com/marshallu/mu-hr-train",
 	"license": "MIT",
 	"type": "wordpress-plugin",
 	"require": {
