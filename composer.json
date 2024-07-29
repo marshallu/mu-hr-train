@@ -6,8 +6,7 @@
 	"license": "MIT",
 	"type": "wordpress-plugin",
 	"require": {
-		"nesbot/carbon": "^2.55",
-        "jasig/phpcas": "^1.4"
+		"nesbot/carbon": "^2.55"
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "@stable",
