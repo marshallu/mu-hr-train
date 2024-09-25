@@ -61,7 +61,7 @@ function mu_hr_trianing_sessions_custom_columns( $columns ) {
 	$columns['start_time'] = __( 'Start Time', 'mu-hr-training' );
 	$columns['end_time']   = __( 'End Time', 'mu-hr-training' );
 	$columns['seats']      = __( 'Seats Available', 'mu-hr-training' );
-	$columns['reglist']      = __( 'Registration', 'mu-hr-training' );
+	$columns['reglist']    = __( 'Registration', 'mu-hr-training' );
 	return $columns;
 }
 add_filter( 'manage_mu-session_posts_columns', 'mu_hr_trianing_sessions_custom_columns' );
@@ -152,12 +152,19 @@ function mu_hr_training_remove_view_action( $actions ) {
 }
 add_filter( 'post_row_actions', 'mu_hr_training_remove_view_action', 10, 1 );
 
-
-function mu_hr_training_full_training_name_for_registration_relation( $text, $post, $field, $post_id ) {
+/**
+ * Add the start time to the training name in the registration relation field.
+ *
+ * @param string $text The text to be displayed.
+ * @param object $post The post object.
+ *
+ * @return string
+ */
+function mu_hr_training_full_training_name_for_registration_relation( $text, $post ) {
 	$start_time = get_field( 'mu_training_start_time', $post->ID );
 	if ( $start_time ) {
 		$text .= ' ' . esc_attr( Carbon::parse( $start_time )->format( 'F j, Y g:i a' ) );
 	}
 	return $text;
 }
-add_filter( 'acf/fields/post_object/result', 'mu_hr_training_full_training_name_for_registration_relation', 10, 4 );
+add_filter( 'acf/fields/post_object/result', 'mu_hr_training_full_training_name_for_registration_relation', 10, 2 );

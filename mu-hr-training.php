@@ -279,40 +279,63 @@ function mu_hr_training_query_parameter( $vars ) {
 }
 add_filter( 'query_vars', 'mu_hr_training_query_parameter' );
 
+/**
+ * Add 'courseid' to the acceptable URL parameters
+ *
+ * @return string
+ */
 function mu_hr_cas_service_url() {
-	$current_url = 'https://' . trim( $_SERVER['HTTP_HOST'], '/' ) . '/' . ltrim( $_SERVER['REQUEST_URI'], '/' );
-	return urlencode( urldecode( $current_url ) );
+	$current_url = 'https://' . trim( $_SERVER['HTTP_HOST'], '/' ) . '/' . ltrim( $_SERVER['REQUEST_URI'], '/' ); // phpcs:ignore
+	return rawurlencode( urldecode( $current_url ) );
 }
 
+/**
+ * Check if a ticket is present in the URL.
+ */
 function mu_hr_ticket_present() {
 	$service_url = mu_hr_cas_service_url();
 	return strpos( urldecode( $service_url ), 'ticket=' );
 }
 
+/**
+ * Get the login URL for CAS.
+ *
+ * @return string
+ */
 function mu_hr_get_login_url() {
 	$service_url = mu_hr_page_get_service_url_without_ticket();
-	return trim( 'https://auth.marshall.edu', '/' ) . '/cas' .  '/login?service=' . $service_url;
+	return 'https://auth.marshall.edu/cas/login?service=' . $service_url;
 }
 
+/**
+ * Get the logout URL for CAS.
+ *
+ * @return string
+ */
 function mu_hr_page_get_service_url_without_ticket() {
 	$service_url       = mu_hr_cas_service_url();
-	$service_url       = urldecode($service_url);
-	$service_url_parts = parse_url($service_url);
+	$service_url       = urldecode( $service_url );
+	$service_url_parts = wp_parse_url( $service_url );
 	parse_str( $service_url_parts['query'], $query_string_parts );
 
 	$query_string = '?';
 	foreach ( $query_string_parts as $key => $value ) {
-		if ( $key != 'ticket' ) {
+		if ( 'ticket' !== $key ) {
 			$query_string .= $key . '=' . $value . '&';
 		}
 	}
 	$query_string = rtrim( $query_string, '&' );
 
-	return urlencode($service_url_parts['scheme'] . '://' . $service_url_parts['host'] . $service_url_parts['path'] . $query_string);
+	return rawurlencode( $service_url_parts['scheme'] . '://' . $service_url_parts['host'] . $service_url_parts['path'] . $query_string );
 }
 
+/**
+ * Get the Ticket.
+ *
+ * @return string|bool
+ */
 function mu_hr_get_ticket() {
-	parse_str( $_SERVER['QUERY_STRING'], $query_string_parts );
+	parse_str( $_SERVER['QUERY_STRING'], $query_string_parts ); // phpcs:ignore
 
 	if ( ! isset( $query_string_parts['ticket'] ) ) {
 		return false;
@@ -321,18 +344,32 @@ function mu_hr_get_ticket() {
 	return $query_string_parts['ticket'];
 }
 
+/**
+ * Validate the ticket
+ *
+ * @param string $ticket The ticket to validate.
+ *
+ * @return object
+ */
 function mu_hr_validate_cas_ticket( $ticket ) {
 	$validation_url = mu_hr_validation_url( $ticket );
-	$data = wp_remote_get( $validation_url );
-	$xml = simplexml_load_string( $data['body'] );
-	$xml = $xml->children('http://www.yale.edu/tp/cas');
-	$json = json_encode( $xml );
+	$data           = wp_remote_get( $validation_url );
+	$xml            = simplexml_load_string( $data['body'] );
+	$xml            = $xml->children( 'http://www.yale.edu/tp/cas' );
+	$json           = wp_json_encode( $xml );
 	return json_decode( $json, false );
 }
 
+/**
+ * Get the validation URL
+ *
+ * @param string $ticket The ticket to validate.
+ *
+ * @return string
+ */
 function mu_hr_validation_url( $ticket ) {
 	$service_url = mu_hr_page_get_service_url_without_ticket();
-	return trim( 'https://auth.marshall.edu', '/' ) . '/cas' .  '/p3/serviceValidate?service=' . $service_url . '&ticket=' . $ticket;
+	return 'https://auth.marshall.edu/cas/p3/serviceValidate?service=' . $service_url . '&ticket=' . $ticket;
 }
 
 /**
@@ -345,14 +382,13 @@ function mu_hr_registration_check_cas() {
 			return 'Sorry that course was not found.';
 		} else {
 			$training_session_id = get_query_var( 'courseid' );
-			// return 'Sorry this service is temporarily unavailable.';
 		}
 
 		require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 		if ( ! mu_hr_ticket_present() ) {
 			$login_url = mu_hr_get_login_url();
-			wp_redirect( $login_url );
+			wp_redirect( $login_url ); // phpcs:ignore
 			exit;
 		}
 
@@ -360,16 +396,15 @@ function mu_hr_registration_check_cas() {
 
 		if ( ! $ticket ) {
 			$login_url = mu_hr_get_login_url();
-			wp_redirect( $login_url );
+			wp_redirect( $login_url ); // phpcs:ignore
 			exit;
 		}
 
-		// validate cas ticket
 		$cas_response = mu_hr_validate_cas_ticket( $ticket );
 
-		if ( ! $cas_response->authenticationSuccess ) {
+		if ( ! $cas_response->authenticationSuccess ) { // phpcs:ignore
 			$login_url = mu_hr_get_login_url();
-			wp_redirect( $login_url );
+			wp_redirect( $login_url ); // phpcs:ignore
 			exit;
 		}
 
@@ -380,7 +415,7 @@ function mu_hr_registration_check_cas() {
 		$can_access[] = get_field( 'mu_training_instructor', $training_session_id )['backup_instructor_username'];
 		$can_access[] = 'cmccomas';
 
-		if ( in_array( $cas_response->authenticationSuccess->user, $can_access, true ) ) {
+		if ( in_array( $cas_response->authenticationSuccess->user, $can_access, true ) ) { // phpcs:ignore
 			$can_access = array();
 			return;
 		} else {
@@ -417,18 +452,3 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 add_action( 'init', 'mu_hr_training_custom_taxonomy' );
 add_action( 'init', 'mu_hr_training_session_post_type' );
 add_action( 'init', 'mu_hr_training_registration_post_type' );
-
-function mu_hr_training_update_custom_roles() {
-		add_role( 'training_leader', 'Training Leader', array( 'read' => true, 'level_0' => true ) );
-		update_option( 'custom_roles_version', 1.1 );
-}
-// add_action( 'init', 'mu_hr_training_update_custom_roles' );
-
-function mu_hr_training_custom_role_caps() {
-	// Gets the simple_role role object.
-	$role = get_role( 'training_leader' );
-
-	// Add a new capability.
-	$role->add_cap( 'edit_registrations', true );
-}
-// add_action( 'init', 'mu_hr_training_custom_role_caps', 11 );

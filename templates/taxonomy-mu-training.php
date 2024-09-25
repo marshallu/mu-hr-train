@@ -5,7 +5,11 @@
  * @package MU HR Training
  */
 
+/**
+ * Get the autoload file.
+ */
 require WP_PLUGIN_DIR . '/mu-hr-train/vendor/autoload.php';
+
 use Carbon\Carbon;
 
 get_header();
@@ -30,8 +34,8 @@ require get_template_directory() . '/template-parts/hero/no-hero.php';
 						array(
 							'numberposts' => -1,
 							'post_type'   => 'mu-registrations',
-							'meta_key'    => 'muhr_registration_training_session',
-							'meta_value'  => get_the_ID(),
+							'meta_key'    => 'muhr_registration_training_session', // phpcs:ignore
+							'meta_value'  => get_the_ID(), // phpcs:ignore
 						)
 					);
 

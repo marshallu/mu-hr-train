@@ -15,7 +15,6 @@ function mu_hr_training_acf_form_deregister_styles() {
 	wp_deregister_style( 'acf-input' );
 	wp_register_style( 'acf-global', false, true, 'all' );
 	wp_register_style( 'acf-input', false, true, 'all' );
-
 }
 add_action( 'wp_enqueue_scripts', 'mu_hr_training_acf_form_deregister_styles' );
 
@@ -57,18 +56,18 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 	if ( get_field( 'muhr_registration_email_address', $post_id ) && ! is_admin() ) {
 		$training_session = get_post( get_field( 'muhr_registration_training_session', $post_id ) );
 
-		$course_name       = $training_session->post_title;
+		$course_name = $training_session->post_title;
 
 		if ( 'virtual' === get_field( 'mu_training_style', $training_session->ID ) ) {
 			$course_location = ' ' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . ' ';
 		} else {
-			$course_location   = get_field( 'mu_training_training_location', $training_session->ID );
+			$course_location = get_field( 'mu_training_training_location', $training_session->ID );
 		}
 		$course_day        = Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'F j, Y' );
 		$course_start_time = Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'g:i a' );
 		$course_end_time   = Carbon::parse( get_field( 'mu_training_end_time', $training_session->ID ) )->format( 'g:i a' );
 
-		$email_body  = 'You have successfully registered for ' . $course_name . ' at ' . $course_location;
+		$email_body = 'You have successfully registered for ' . $course_name . ' at ' . $course_location;
 
 		if ( ! get_field( 'mu_training_hide_session_time', $training_session->ID ) ) {
 			$email_body .= 'on ' . $course_day . ' at ' . $course_start_time . ' - ' . $course_end_time;
@@ -79,8 +78,7 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
 		$headers[] = 'From: wwwmail@marshall.edu';
-		// $headers[] = 'Cc: cmccomas@marshall.edu'; // note you can just use a simple email address
-		$headers[] = 'Reply-To: human-resources@marshall.edu'; // note you can just use a simple email address
+		$headers[] = 'Reply-To: human-resources@marshall.edu';
 
 		wp_mail( get_field( 'muhr_registration_email_address', $post_id ), 'HR Training Registration', $email_body, $headers );
 	}
@@ -193,11 +191,11 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		$email_body .= '</tr>';
 		$email_body .= '</table>';
 
-		$to      = 'benefits@marshall.edu,' . get_field( 'muhr_registration_request_email', $post_id ) . ',' . get_field( 'muhr_registration_supervisor_email', $post_id );
+		$to = 'benefits@marshall.edu,' . get_field( 'muhr_registration_request_email', $post_id ) . ',' . get_field( 'muhr_registration_supervisor_email', $post_id );
 
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
 		$headers[] = 'From: wwwmail@marshall.edu';
-		$headers[] = 'Reply-To: human-resources@marshall.edu'; // note you can just use a simple email address
+		$headers[] = 'Reply-To: human-resources@marshall.edu';
 
 		wp_mail( $to, 'HR Benefits Registration', $email_body, $headers );
 	}

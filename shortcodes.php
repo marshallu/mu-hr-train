@@ -5,17 +5,20 @@
  * @package MU HR Training
  */
 
+/**
+ * Get the autoload file.
+ */
 require WP_PLUGIN_DIR . '/mu-hr-train/vendor/autoload.php';
+
 use Carbon\Carbon;
 
 /**
  * Show users the registration for or if full show a message apologizing the course is full.
  *
- * @param array  $atts The array of attributes included with the shortcode.
- * @param string $content The HTML string for the shortcode.
+ * @param array $atts The array of attributes included with the shortcode.
  * @return string
  */
-function mu_hr_registration_register_shortcode( $atts, $content = null ) {
+function mu_hr_registration_register_shortcode( $atts ) {
 	$data = shortcode_atts(
 		array(
 			'id'    => '',
@@ -23,8 +26,6 @@ function mu_hr_registration_register_shortcode( $atts, $content = null ) {
 		),
 		$atts
 	);
-
-	wp_enqueue_style( 'marsha-forms', marsha_vite( '/css/marsha-forms.css' ), '', null, 'all' ); // phpcs:ignore
 
 	$html = '';
 
@@ -86,15 +87,6 @@ function mu_hr_registration_register_shortcode( $atts, $content = null ) {
 			$training_info .= ' on ' . esc_attr( Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'F j, g:ia' ) ) . ' - ' . esc_attr( Carbon::parse( get_field( 'mu_training_end_time', $training_session->ID ) )->format( 'g:ia' ) );
 		}
 
-		// if ( 'virtual' === get_field( 'mu_training_style', $training_session->ID ) ) {
-		// 	$training_info .= ' at ' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) );
-		// 	$training_info .= '<div class="text-sm"><span class="font-semibold">Location:</span> <a href="' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '">Training Link</a></div>';
-		// } elseif ( 'hybrid' === get_field( 'mu_training_style', $training_session->ID ) ) {
-		// 	$training_info .= '<div class="text-sm"><span class="font-semibold">Location:</span> ' . esc_attr( get_field( 'mu_training_training_location', get_the_ID() ) ) . ' and <a href="' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '">' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '</a></div>';
-		// } else {
-		// 	$training_info .= '<div class="text-sm"><span class="font-semibold">Location:</span> ' . esc_attr( get_field( 'mu_training_training_location', get_the_ID() ) ) . '</div>';
-		// }
-
 		$training_info .= '.';
 
 		if ( get_field( 'mu_training_benefits_training', $training_session->ID ) && get_field( 'benefits_session_confirmation_url', 'option' ) ) {
@@ -114,7 +106,7 @@ function mu_hr_registration_register_shortcode( $atts, $content = null ) {
 				'return'             => home_url( $redirect_url ),
 				'fields'             => $fields,
 				'submit_value'       => 'Register',
-				'html_submit_button'  => '<input type="submit" class="acf-button button button-primary button-large button--green" value="%s" />',
+				'html_submit_button' => '<input type="submit" class="acf-button button button-primary button-large button--green" value="%s" />',
 				'html_after_fields'  => '<input type="hidden" name="acf[field_61ae470969cf8]" value="' . esc_attr( get_query_var( 'courseid' ) ) . '" />',
 				'html_before_fields' => '<div class="w-full">' . do_shortcode( '[mu-hr-session-individual class="pb-12"]' ) . '</div>',
 			)
@@ -126,11 +118,11 @@ add_shortcode( 'mu-hr-register', 'mu_hr_registration_register_shortcode' );
 /**
  * Show users the registration for or if full show a message apologizing the course is full.
  *
- * @param array  $atts The array of attributes included with the shortcode.
- * @param string $content The HTML string for the shortcode.
+ * @param array $atts The array of attributes included with the shortcode.
+ *
  * @return string
  */
-function mu_hr_registration_registration_list( $atts, $content = null ) {
+function mu_hr_registration_registration_list( $atts ) {
 	$data = shortcode_atts(
 		array(
 			'id'    => '',
@@ -148,7 +140,7 @@ function mu_hr_registration_registration_list( $atts, $content = null ) {
 			array(
 				'numberposts' => -1,
 				'post_type'   => 'mu-registrations',
-				'meta_query'  => array(
+				'meta_query'  => array( // phpcs:ignore
 					'relation'   => 'AND',
 					'last_name'  => array(
 						'key' => 'muhr_registration_last_name',
@@ -211,11 +203,10 @@ add_shortcode( 'mu-hr-registration-list', 'mu_hr_registration_registration_list'
 /**
  * Show users the registration for or if full show a message apologizing the course is full.
  *
- * @param array  $atts The array of attributes included with the shortcode.
- * @param string $content The HTML string for the shortcode.
+ * @param array $atts The array of attributes included with the shortcode.
  * @return string
  */
-function mu_hr_registration_individual_session( $atts, $content = null ) {
+function mu_hr_registration_individual_session( $atts ) {
 	$data = shortcode_atts(
 		array(
 			'id'                   => '',
@@ -242,8 +233,8 @@ function mu_hr_registration_individual_session( $atts, $content = null ) {
 		array(
 			'numberposts' => -1,
 			'post_type'   => 'mu-registrations',
-			'meta_key'    => 'muhr_registration_training_session',
-			'meta_value'  => $training_session->ID,
+			'meta_key'    => 'muhr_registration_training_session', // phpcs:ignore
+			'meta_value'  => $training_session->ID, // phpcs:ignore
 		)
 	);
 
@@ -268,7 +259,7 @@ function mu_hr_registration_individual_session( $atts, $content = null ) {
 
 	if ( 'virtual' === get_field( 'mu_training_style', $training_session->ID ) ) {
 		$training_info = ' at ' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) );
-		$output .= '<div class="text-sm"><span class="font-semibold">Location:</span> <a href="' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '">Training Link</a></div>';
+		$output       .= '<div class="text-sm"><span class="font-semibold">Location:</span> <a href="' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '">Training Link</a></div>';
 	} elseif ( 'hybrid' === get_field( 'mu_training_style', $training_session->ID ) ) {
 		$output .= '<div class="text-sm"><span class="font-semibold">Location:</span> ' . esc_attr( get_field( 'mu_training_training_location', get_the_ID() ) ) . ' and <a href="' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '">' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '</a></div>';
 	} else {
