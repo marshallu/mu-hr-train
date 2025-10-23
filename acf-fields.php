@@ -4,8 +4,7 @@ add_action( 'acf/include_fields', function() {
 	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 		return;
 	}
-
-	acf_add_local_field_group( array(
+acf_add_local_field_group( array(
 	'key' => 'group_620fb3489af1e',
 	'title' => 'Benefits Registration',
 	'fields' => array(
@@ -59,6 +58,8 @@ add_action( 'acf/include_fields', function() {
 			'return_format' => 'value',
 			'ajax' => 0,
 			'placeholder' => '',
+			'create_options' => 0,
+			'save_options' => 0,
 		),
 		array(
 			'key' => 'field_620fb36179601',
@@ -134,9 +135,11 @@ add_action( 'acf/include_fields', function() {
 				'class' => '',
 				'id' => '',
 			),
-			'display_format' => 'd/m/Y',
+			'display_format' => 'm/d/Y',
 			'return_format' => 'd/m/Y',
 			'first_day' => 0,
+			'default_to_current_date' => 0,
+			'allow_in_bindings' => 1,
 		),
 		array(
 			'key' => 'field_620fb39482d12',
@@ -211,9 +214,11 @@ add_action( 'acf/include_fields', function() {
 				'class' => '',
 				'id' => '',
 			),
-			'display_format' => 'd/m/Y',
+			'display_format' => 'm/d/Y',
 			'return_format' => 'd/m/Y',
 			'first_day' => 0,
+			'default_to_current_date' => 0,
+			'allow_in_bindings' => 1,
 		),
 		array(
 			'key' => 'field_623894b2837fd',
@@ -297,6 +302,8 @@ add_action( 'acf/include_fields', function() {
 			'return_format' => 'value',
 			'ajax' => 0,
 			'placeholder' => '',
+			'create_options' => 0,
+			'save_options' => 0,
 		),
 		array(
 			'key' => 'field_6238953e6e111',
@@ -422,6 +429,7 @@ add_action( 'acf/include_fields', function() {
 			'display_format' => 'd/m/Y g:i a',
 			'return_format' => 'd/m/Y g:i a',
 			'first_day' => 1,
+			'default_to_current_date' => 0,
 		),
 	),
 	'location' => array(
@@ -449,6 +457,7 @@ add_action( 'acf/include_fields', function() {
 	'active' => true,
 	'description' => '',
 	'show_in_rest' => 0,
+	'display_title' => '',
 ) );
 
 	acf_add_local_field_group( array(
