@@ -73,18 +73,29 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 			$email_body .= 'on ' . $course_day . ' at ' . $course_start_time . ' - ' . $course_end_time;
 		}
 
+		$is_benefits_training = get_field( 'mu_training_benefits_training', $training_session->ID );
+
+		$email_subject = $is_benefits_training ? 'HR Benefits Registration' : 'HR Training Registration';
+
 		$email_body .= ".\r\r";
+
+		if ( $is_benefits_training ) {
+			$benefits_url = get_field( 'benefits_session_confirmation_url', 'option' );
+			if ( $benefits_url ) {
+				$email_body .= 'For more information on the benefits training, please visit ' . esc_url( $benefits_url ) . "\r\r";
+			}
+		}
+
 		$email_body .= 'For any questions please contact Human Resources.';
 
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
 		$headers[] = 'From: wwwmail@marshall.edu';
 		$headers[] = 'Reply-To: human-resources@marshall.edu';
 
-		wp_mail( get_field( 'muhr_registration_email_address', $post_id ), 'HR Training Registration', $email_body, $headers );
+		wp_mail( get_field( 'muhr_registration_email_address', $post_id ), $email_subject, $email_body, $headers );
 	}
 
 	if ( get_field( 'muhr_registration_request_email', $post_id ) && get_field( 'muhr_registration_supervisor_email', $post_id ) ) {
-
 		$email_body  = '';
 		$email_body .= '<style type="text/css">';
 		$email_body .= '@media only screen and (max-width: 480px){';
