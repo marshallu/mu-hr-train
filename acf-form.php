@@ -63,6 +63,7 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		} else {
 			$course_location = get_field( 'mu_training_training_location', $training_session->ID );
 		}
+
 		$course_day        = Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'F j, Y' );
 		$course_start_time = Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'g:i a' );
 		$course_end_time   = Carbon::parse( get_field( 'mu_training_end_time', $training_session->ID ) )->format( 'g:i a' );
@@ -132,7 +133,10 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		$email_body .= '</tr>';
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
 		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Date of Birth</td>';
-		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( get_field( 'muhr_registration_birthdate', $post_id ) ) . '</td>';
+
+		$dob = Carbon::parse( get_field( 'muhr_registration_birthdate', $post_id ) )->format( 'F j, Y' );
+
+		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( $dob ) . '</td>';
 		$email_body .= '</tr>';
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
 		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Email Address</td>';
@@ -148,7 +152,10 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		$email_body .= '</tr>';
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
 		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Hire Date</td>';
-		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( get_field( 'muhr_registration_hiredate', $post_id ) ) . '</td>';
+
+		$hire_date = Carbon::parse( get_field( 'muhr_registration_hiredate', $post_id ) )->format( 'F j, Y' );
+
+		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( $hire_date ) . '</td>';
 		$email_body .= '</tr>';
 
 		if ( get_field( 'muhr_registration_nine_month', $post_id ) ) {
