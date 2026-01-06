@@ -53,21 +53,21 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 
 	add_action( 'acf/save_post', 'mu_hr_registration_submitted_registration', 20 );
 
+	$training_session = get_post( get_field( 'muhr_registration_training_session', $post_id ) );
+
+	$course_name = $training_session->post_title;
+
+	if ( 'virtual' === get_field( 'mu_training_style', $training_session->ID ) ) {
+		$course_location = ' ' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . ' ';
+	} else {
+		$course_location = get_field( 'mu_training_training_location', $training_session->ID );
+	}
+
+	$course_day        = Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'F j, Y' );
+	$course_start_time = Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'g:i a' );
+	$course_end_time   = Carbon::parse( get_field( 'mu_training_end_time', $training_session->ID ) )->format( 'g:i a' );
+
 	if ( get_field( 'muhr_registration_email_address', $post_id ) && ! is_admin() ) {
-		$training_session = get_post( get_field( 'muhr_registration_training_session', $post_id ) );
-
-		$course_name = $training_session->post_title;
-
-		if ( 'virtual' === get_field( 'mu_training_style', $training_session->ID ) ) {
-			$course_location = ' ' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . ' ';
-		} else {
-			$course_location = get_field( 'mu_training_training_location', $training_session->ID );
-		}
-
-		$course_day        = Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'F j, Y' );
-		$course_start_time = Carbon::parse( get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'g:i a' );
-		$course_end_time   = Carbon::parse( get_field( 'mu_training_end_time', $training_session->ID ) )->format( 'g:i a' );
-
 		$email_body = 'You have successfully registered for ' . $course_name . ' at ' . $course_location;
 
 		if ( ! get_field( 'mu_training_hide_session_time', $training_session->ID ) ) {
@@ -123,6 +123,21 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		$email_body .= '}';
 		$email_body .= '</style>';
 		$email_body .= '<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateColumns">';
+		$email_body .= 'You have successfully registered for ' . $course_name . ' at ' . $course_location;
+
+		if ( ! get_field( 'mu_training_hide_session_time', $training_session->ID ) ) {
+			$email_body .= 'on ' . $course_day . ' at ' . $course_start_time . ' - ' . $course_end_time;
+		}
+
+		$email_body .= '<tr style="border-bottom: 1px solid #999">';
+		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Session</td>';
+		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . $course_name . ' at ' . $course_location;
+		if ( ! get_field( 'mu_training_hide_session_time', $training_session->ID ) ) {
+			$email_body .= ' on ' . $course_day . ' at ' . $course_start_time . ' - ' . $course_end_time;
+		}
+		$email_body .= '</td>';
+		$email_body .= '</tr>';
+
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
 		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Faculty/Staff</td>';
 		$email_body .= '<td style="background-color: #eee; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( get_field( 'muhr_registration_faculty_staff', $post_id ) ) . '</td>';
