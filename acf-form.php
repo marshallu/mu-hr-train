@@ -226,6 +226,7 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 
 		$to = 'benefits@marshall.edu,' . get_field( 'muhr_registration_request_email', $post_id ) . ',' . get_field( 'muhr_registration_supervisor_email', $post_id );
 
+		$headers   = array();
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
 		$headers[] = 'From: wwwmail@marshall.edu';
 		$headers[] = 'Reply-To: human-resources@marshall.edu';
