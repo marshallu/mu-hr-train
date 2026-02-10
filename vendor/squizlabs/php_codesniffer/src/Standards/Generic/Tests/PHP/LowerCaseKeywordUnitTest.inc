@@ -53,5 +53,24 @@ if (ISSET($a) && !Empty($a)) { UnSeT($a); }
 eval('foo');
 eVaL('foo');
 
+$c = function() {
+    Yield /*comment*/ From fun();
+    YIELD
+    /*comment*/
+    FROM fun();
+}
+
+class AsymmetricVisibility {
+    public(set) int $correctPublicSet;
+    protected(set) int $correctProtectedSet;
+    private(set) int $correctPrivateSet;
+
+    PubliC(SeT) int $wrongCasePublic;
+    PROTECTED(set) array $wrongCaseProtected;
+    protected(sEt) int $wrongCaseProtectedSet;
+    Private(set) int $wrongCasePrivate;
+    private(SET) readonly ?string $wrongCasePrivateSet;
+}
+
 __HALT_COMPILER(); // An exception due to phar support.
 function

@@ -4,7 +4,7 @@
  *
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2006-2015 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
+ * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/HEAD/licence.txt BSD Licence
  */
 
 namespace PHP_CodeSniffer\Reports;
@@ -40,7 +40,7 @@ class Code implements Report
             return false;
         }
 
-        // How many lines to show about and below the error line.
+        // How many lines to show above and below the error line.
         $surroundingLines = 2;
 
         $file   = $report['filename'];
@@ -55,6 +55,10 @@ class Code implements Report
 
             try {
                 $phpcsFile->parse();
+
+                // Make sure the fixer is aware of the reparsed file to prevent a race-condition
+                // with the Diff report also re-parsing the file.
+                $phpcsFile->fixer->startFile($phpcsFile);
             } catch (Exception $e) {
                 // This is a second parse, so ignore exceptions.
                 // They would have been added to the file's error list already.

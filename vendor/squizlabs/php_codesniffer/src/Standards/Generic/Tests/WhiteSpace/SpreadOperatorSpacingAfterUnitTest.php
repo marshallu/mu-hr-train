@@ -4,7 +4,7 @@
  *
  * @author    Juliette Reinders Folmer <phpcs_nospam@adviesenzo.nl>
  * @copyright 2019 Juliette Reinders Folmer. All rights reserved.
- * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
+ * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/HEAD/licence.txt BSD Licence
  */
 
 namespace PHP_CodeSniffer\Standards\Generic\Tests\WhiteSpace;
@@ -44,6 +44,7 @@ final class SpreadOperatorSpacingAfterUnitTest extends AbstractSniffUnitTest
                 60 => 1,
                 61 => 1,
                 66 => 2,
+                78 => 1,
             ];
 
         default:

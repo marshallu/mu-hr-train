@@ -4,7 +4,7 @@
  *
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2006-2015 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
+ * @license   https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/HEAD/licence.txt BSD Licence
  */
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\WhiteSpace;
@@ -78,6 +78,7 @@ class DisallowTabIndentSniff implements Sniff
             T_COMMENT                => true,
             T_END_HEREDOC            => true,
             T_END_NOWDOC             => true,
+            T_YIELD_FROM             => true,
         ];
 
         for ($i = 0; $i < $phpcsFile->numTokens; $i++) {
