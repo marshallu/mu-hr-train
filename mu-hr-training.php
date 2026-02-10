@@ -19,7 +19,6 @@ if ( ! class_exists( 'ACF' ) ) {
 
 require WP_PLUGIN_DIR . '/mu-hr-train/vendor/autoload.php';
 
-use Carbon\Carbon;
 
 require plugin_dir_path( __FILE__ ) . '/acf-fields.php';
 require plugin_dir_path( __FILE__ ) . '/acf-form.php';

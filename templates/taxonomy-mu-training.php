@@ -10,7 +10,6 @@
  */
 require WP_PLUGIN_DIR . '/mu-hr-train/vendor/autoload.php';
 
-use Carbon\Carbon;
 
 get_header();
 
@@ -49,8 +48,8 @@ require get_template_directory() . '/template-parts/hero/no-hero.php';
 					<div id="course<?php echo esc_attr( get_the_ID() ); ?>" class="flex flex-col border-gray-100 border border-t border-b rounded my-6">
 						<div class="border-b border-gray-100 flex flex-row items-start py-4 px-4 lg:px-6">
 							<div class="flex-col flex w-12 lg:w-16 mx-auto">
-								<div class="bg-green text-white text-xl font-bold uppercase py-1 rounded-t text-center"><?php echo esc_attr( Carbon::parse( get_field( 'mu_training_start_time', get_the_ID() ) )->format( 'M' ) ); ?></div>
-								<div class="bg-gray-100 text-sm lg:text-xl font-bold uppercase py-1 rounded-b text-center"><?php echo esc_attr( Carbon::parse( get_field( 'mu_training_start_time', get_the_ID() ) )->format( 'j' ) ); ?></div>
+								<div class="bg-green text-white text-xl font-bold uppercase py-1 rounded-t text-center"><?php echo esc_attr( DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_start_time', get_the_ID() ) )->format( 'M' ) ); ?></div>
+								<div class="bg-gray-100 text-sm lg:text-xl font-bold uppercase py-1 rounded-b text-center"><?php echo esc_attr( DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_start_time', get_the_ID() ) )->format( 'j' ) ); ?></div>
 							</div>
 							<div class="ml-4 lg:ml-6 flex-1">
 								<div class="">
@@ -71,7 +70,7 @@ require get_template_directory() . '/template-parts/hero/no-hero.php';
 									}
 									?>
 
-									<div class="text-sm"><?php echo esc_attr( Carbon::parse( get_field( 'mu_training_start_time', get_the_ID() ) )->format( 'F j, g:ia' ) ); ?> - <?php echo esc_attr( Carbon::parse( get_field( 'mu_training_end_time', get_the_ID() ) )->format( 'g:ia' ) ); ?> · <span class="font-semibold"><?php echo esc_attr( $seats_left ); ?></span> spots remaining</div> <span class="hidden">Seats taken: <?php echo intval( count( $registrations ) ); ?></span>
+									<div class="text-sm"><?php echo esc_attr( DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_start_time', get_the_ID() ) )->format( 'F j, g:ia' ) ); ?> - <?php echo esc_attr( DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_end_time', get_the_ID() ) )->format( 'g:ia' ) ); ?> · <span class="font-semibold"><?php echo esc_attr( $seats_left ); ?></span> spots remaining</div> <span class="hidden">Seats taken: <?php echo intval( count( $registrations ) ); ?></span>
 									<div class="text-sm"><span class="font-semibold">Instructor:</span> <?php echo esc_attr( get_field( 'mu_training_instructor', get_the_ID() )['instructor_name'] ); ?> (<a href="<?php echo esc_url( home_url() ); ?>/training/registered-list/?courseid=<?php echo esc_attr( get_the_ID() ); ?>">Instructor Access</a>)</div>
 									<?php
 									if ( get_field( 'mu_training_course_description', get_the_ID() ) ) {

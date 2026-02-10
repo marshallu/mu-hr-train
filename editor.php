@@ -5,8 +5,6 @@
  * @package MU HR Training
  */
 
-use Carbon\Carbon;
-
 /**
  * Remove YoastSEO metaboxes from Sessions
  */
@@ -124,9 +122,9 @@ function mu_hr_training_registrations_custom_columns_data( $column, $post_id ) {
 	$session = get_field( 'muhr_registration_training_session', $post_id );
 
 	$session           = get_post( $session );
-	$course_day        = Carbon::parse( get_field( 'mu_training_start_time', $session->ID ) )->format( 'F j, Y' );
-	$course_start_time = Carbon::parse( get_field( 'mu_training_start_time', $session->ID ) )->format( 'g:i a' );
-	$course_end_time   = Carbon::parse( get_field( 'mu_training_end_time', $session->ID ) )->format( 'g:i a' );
+	$course_day        = DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_start_time', $session->ID ) )->format( 'F j, Y' );
+	$course_start_time = DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_start_time', $session->ID ) )->format( 'g:i a' );
+	$course_end_time   = DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_end_time', $session->ID ) )->format( 'g:i a' );
 
 	$column_text = $session->post_title . ' on ' . $course_day . ' ' . $course_start_time . '-' . $course_end_time;
 
@@ -163,7 +161,7 @@ add_filter( 'post_row_actions', 'mu_hr_training_remove_view_action', 10, 1 );
 function mu_hr_training_full_training_name_for_registration_relation( $text, $post ) {
 	$start_time = get_field( 'mu_training_start_time', $post->ID );
 	if ( $start_time ) {
-		$text .= ' ' . esc_attr( Carbon::parse( $start_time )->format( 'F j, Y g:i a' ) );
+		$text .= ' ' . esc_attr( DateTime::createFromFormat( 'd/m/Y', $start_time )->format( 'F j, Y g:i a' ) );
 	}
 	return $text;
 }
