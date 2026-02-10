@@ -89,6 +89,7 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 
 		$email_body .= 'For any questions please contact Human Resources.';
 
+		$headers   = array();
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
 		$headers[] = 'From: wwwmail@marshall.edu';
 		$headers[] = 'Reply-To: human-resources@marshall.edu';
@@ -185,9 +186,11 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		$email_body .= '</tr>';
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
 
-		$paid       = get_field_object( 'muhr_registration_paid' );
-		$paid_value = $paid['value'];
-		$paid_label = $paid['choices'][ $paid_value ];
+		$paid       = get_field_object( 'muhr_registration_paid', $post_id );
+		$paid_label = '';
+		if ( $paid && isset( $paid['value'] ) && isset( $paid['choices'][ $paid['value'] ] ) ) {
+			$paid_label = $paid['choices'][ $paid['value'] ];
+		}
 
 		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">How Are You Paid?</td>';
 		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( $paid_label ) . '</td>';
