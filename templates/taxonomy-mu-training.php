@@ -62,11 +62,10 @@ require get_template_directory() . '/template-parts/hero/no-hero.php';
 										<span class="font-semibold"><?php the_title(); ?></span>
 									<?php } ?>
 									<?php
-									if ( 'virtual' === get_field( 'mu_training_style', $training_session->ID ) ) {
-										$training_info .= ' at ' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) );
-										echo '<div class="text-sm"><span class="font-semibold">Location:</span> <a href="' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '">Training Link</a></div>';
-									} elseif ( 'hybrid' === get_field( 'mu_training_style', $training_session->ID ) ) {
-										echo '<div class="text-sm"><span class="font-semibold">Location:</span> ' . esc_attr( get_field( 'mu_training_training_location', get_the_ID() ) ) . ' and <a href="' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '">' . esc_url( get_field( 'mu_training_training_url', $training_session->ID ) ) . '</a></div>';
+									if ( 'virtual' === get_field( 'mu_training_style', get_the_ID() ) ) {
+										echo '<div class="text-sm"><span class="font-semibold">Location:</span> <a href="' . esc_url( get_field( 'mu_training_training_url', get_the_ID() ) ) . '">Training Link</a></div>';
+									} elseif ( 'hybrid' === get_field( 'mu_training_style', get_the_ID() ) ) {
+										echo '<div class="text-sm"><span class="font-semibold">Location:</span> ' . esc_attr( get_field( 'mu_training_training_location', get_the_ID() ) ) . ' and <a href="' . esc_url( get_field( 'mu_training_training_url', get_the_ID() ) ) . '">' . esc_url( get_field( 'mu_training_training_url', get_the_ID() ) ) . '</a></div>';
 									} else {
 										echo '<div class="text-sm"><span class="font-semibold">Location:</span> ' . esc_attr( get_field( 'mu_training_training_location', get_the_ID() ) ) . '</div>';
 									}
