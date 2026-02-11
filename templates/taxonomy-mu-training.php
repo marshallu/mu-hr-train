@@ -44,8 +44,8 @@ require get_template_directory() . '/template-parts/hero/no-hero.php';
 
 					$seats_left = intval( $seats_total ) - intval( count( $registrations ) );
 
-					$start_date = DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_start_time', get_the_ID() ) );
-					$end_date   = DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_end_time', get_the_ID() ) );
+					$start_date = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_start_time', get_the_ID() ) );
+					$end_date   = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_end_time', get_the_ID() ) );
 					$instructor = get_field( 'mu_training_instructor', get_the_ID() );
 
 					?>
