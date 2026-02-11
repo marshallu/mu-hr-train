@@ -61,9 +61,9 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		$course_location = get_field( 'mu_training_training_location', $training_session->ID );
 	}
 
-	$course_day        = DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'F j, Y' );
-	$course_start_time = DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'g:i a' );
-	$course_end_time   = DateTime::createFromFormat( 'd/m/Y', get_field( 'mu_training_end_time', $training_session->ID ) )->format( 'g:i a' );
+	$course_day        = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'F j, Y' );
+	$course_start_time = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_start_time', $training_session->ID ) )->format( 'g:i a' );
+	$course_end_time   = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_end_time', $training_session->ID ) )->format( 'g:i a' );
 
 	if ( get_field( 'muhr_registration_email_address', $post_id ) && ! is_admin() ) {
 		$email_body = 'You have successfully registered for ' . $course_name . ' at ' . $course_location;
