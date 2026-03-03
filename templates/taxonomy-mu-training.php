@@ -5,109 +5,60 @@
  * @package MU HR Training
  */
 
-/**
- * Get the autoload file.
- */
-require WP_PLUGIN_DIR . '/mu-hr-train/vendor/autoload.php';
+use Timber\Timber;
 
+$context = Timber::context();
 
-get_header();
+$sessions = array();
 
-require get_template_directory() . '/template-parts/hero/no-hero.php';
-?>
-<div class="w-full xl:max-w-screen-xl px-6 xl:px-0 xl:mx-auto pt-4 lg:pt-12 pb-16">
-	<div class="flex flex-wrap mx-0 lg:-mx-6 px-0">
-		<div class="w-full lg:w-3/4 lg:px-6">
-			<header class="page-header">
-				<?php
-				the_archive_title( '<h1 class="entry-title font-sans uppercase font-semibold text-gray-700 mb-4 text-3xl lg:text-4xl">', '</h1>' );
-				?>
-			</header><!-- .page-header -->
-			<?php
+if ( have_posts() ) {
+	while ( have_posts() ) {
+		the_post();
 
-			if ( have_posts() ) :
-				while ( have_posts() ) {
-					the_post();
+		$post_id = get_the_ID(); // phpcs:ignore
 
-					$registrations = get_posts(
-						array(
-							'numberposts' => -1,
-							'post_type'   => 'mu-registrations',
-							'meta_key'    => 'muhr_registration_training_session', // phpcs:ignore
-							'meta_value'  => get_the_ID(), // phpcs:ignore
-						)
-					);
+		$registrations = get_posts(
+			array(
+				'numberposts' => -1,
+				'post_type'   => 'mu-registrations',
+				'meta_key'    => 'muhr_registration_training_session', // phpcs:ignore
+				'meta_value'  => $post_id, // phpcs:ignore
+			)
+		);
 
-					wp_reset_postdata();
+		wp_reset_postdata();
 
-					$seats_total = get_field( 'mu_training_training_seats', get_the_ID() );
+		$seats_total = get_field( 'mu_training_training_seats', $post_id );
+		$seats_left  = intval( $seats_total ) - intval( count( $registrations ) );
 
-					$seats_left = intval( $seats_total ) - intval( count( $registrations ) );
+		$start_date = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_start_time', $post_id ) );
+		$end_date   = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_end_time', $post_id ) );
+		$instructor = get_field( 'mu_training_instructor', $post_id );
+		$style      = get_field( 'mu_training_style', $post_id );
 
-					$start_date = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_start_time', get_the_ID() ) );
-					$end_date   = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_end_time', get_the_ID() ) );
-					$instructor = get_field( 'mu_training_instructor', get_the_ID() );
+		$sessions[] = array(
+			'id'                 => $post_id,
+			'title'              => get_the_title(),
+			'seats_left'         => $seats_left,
+			'seats_taken'        => count( $registrations ),
+			'start_month'        => $start_date ? $start_date->format( 'M' ) : '',
+			'start_day'          => $start_date ? $start_date->format( 'j' ) : '',
+			'start_formatted'    => $start_date ? $start_date->format( 'F j, g:ia' ) : '',
+			'end_formatted'      => $end_date ? $end_date->format( 'g:ia' ) : '',
+			'instructor_name'    => $instructor ? $instructor['instructor_name'] : '',
+			'style'              => $style,
+			'location'           => get_field( 'mu_training_training_location', $post_id ),
+			'training_url'       => get_field( 'mu_training_training_url', $post_id ),
+			'course_description' => get_field( 'mu_training_course_description', $post_id ),
+			'term_description'   => term_description(),
+			'registration_url'   => home_url( '/training/registration/?courseid=' . $post_id ),
+			'instructor_url'     => home_url( '/training/registered-list/?courseid=' . $post_id ),
+		);
+	}
+}
 
-					?>
-					<div id="course<?php echo esc_attr( get_the_ID() ); ?>" class="flex flex-col border-gray-100 border border-t border-b rounded my-6">
-						<div class="border-b border-gray-100 flex flex-row items-start py-4 px-4 lg:px-6">
-							<div class="flex-col flex w-12 lg:w-16 mx-auto">
-								<div class="bg-green text-white text-xl font-bold uppercase py-1 rounded-t text-center"><?php echo $start_date ? esc_attr( $start_date->format( 'M' ) ) : ''; ?></div>
-								<div class="bg-gray-100 text-sm lg:text-xl font-bold uppercase py-1 rounded-b text-center"><?php echo $start_date ? esc_attr( $start_date->format( 'j' ) ) : ''; ?></div>
-							</div>
-							<div class="ml-4 lg:ml-6 flex-1">
-								<div class="">
-									<?php
-									if ( $seats_left > 0 ) {
-										?>
-										<a href="<?php echo esc_url( home_url() ); ?>/training/registration/?courseid=<?php echo esc_attr( get_the_ID() ); ?>" class="font-semibold"><?php the_title(); ?></a>
-									<?php } else { ?>
-										<span class="font-semibold"><?php the_title(); ?></span>
-									<?php } ?>
-									<?php
-									if ( 'virtual' === get_field( 'mu_training_style', get_the_ID() ) ) {
-										echo '<div class="text-sm"><span class="font-semibold">Location:</span> <a href="' . esc_url( get_field( 'mu_training_training_url', get_the_ID() ) ) . '">Training Link</a></div>';
-									} elseif ( 'hybrid' === get_field( 'mu_training_style', get_the_ID() ) ) {
-										echo '<div class="text-sm"><span class="font-semibold">Location:</span> ' . esc_attr( get_field( 'mu_training_training_location', get_the_ID() ) ) . ' and <a href="' . esc_url( get_field( 'mu_training_training_url', get_the_ID() ) ) . '">' . esc_url( get_field( 'mu_training_training_url', get_the_ID() ) ) . '</a></div>';
-									} else {
-										echo '<div class="text-sm"><span class="font-semibold">Location:</span> ' . esc_attr( get_field( 'mu_training_training_location', get_the_ID() ) ) . '</div>';
-									}
-									?>
+$context['sessions']      = $sessions;
+$context['archive_title'] = get_the_archive_title();
+$context['pagination']    = get_the_posts_pagination( array( 'mid_size' => 2 ) );
 
-									<div class="text-sm"><?php echo $start_date ? esc_attr( $start_date->format( 'F j, g:ia' ) ) : ''; ?> - <?php echo $end_date ? esc_attr( $end_date->format( 'g:ia' ) ) : ''; ?> · <span class="font-semibold"><?php echo esc_attr( $seats_left ); ?></span> spots remaining</div> <span class="hidden">Seats taken: <?php echo intval( count( $registrations ) ); ?></span>
-									<div class="text-sm"><span class="font-semibold">Instructor:</span> <?php echo $instructor ? esc_attr( $instructor['instructor_name'] ) : ''; ?> (<a href="<?php echo esc_url( home_url() ); ?>/training/registered-list/?courseid=<?php echo esc_attr( get_the_ID() ); ?>">Instructor Access</a>)</div>
-									<?php
-									if ( get_field( 'mu_training_course_description', get_the_ID() ) ) {
-										?>
-										<div class="my-4"><?php echo wp_kses_post( get_field( 'mu_training_course_description', get_the_ID() ) ); ?></div>
-									<?php } else { ?>
-										<div class="my-4"><?php echo wp_kses_post( term_description() ); ?></div>
-									<?php } ?>
-								</div>
-								<div class="mt-6">
-									<?php
-									if ( $seats_left > 0 ) {
-										?>
-										<a href="<?php echo esc_url( home_url() ); ?>/training/registration/?courseid=<?php echo esc_attr( get_the_ID() ); ?>" class="btn btn-green">Register</a>
-									<?php } else { ?>
-										<div class="mt-6 btn bg-gray-300 text-gray-500 cursor-not-allowed">Course Full</div>
-									<?php } ?>
-								</div>
-							</div>
-						</div>
-					</div>
-					<?php
-				}
-
-				the_posts_pagination( array( 'mid_size' => 2 ) );
-			endif;
-			?>
-		</div>
-		<div class="w-full lg:w-1/4 lg:px-6 mt-6 lg:mt-0">
-			<?php dynamic_sidebar( 'sidebar-1' ); ?>
-		</div>
-	</div>
-</div>
-
-<!-- Footer -->
-<?php get_footer(); ?>
+Timber::render( 'taxonomy-mu-training.twig', $context );
