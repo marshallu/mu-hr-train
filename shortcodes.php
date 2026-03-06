@@ -280,7 +280,7 @@ function mu_hr_registration_individual_session( $atts ) {
 
 	if ( $data['show_register_button'] ) {
 		$output .= '<div class="mt-6">';
-		$output .= '<a href="' . esc_url( home_url() ) . '/training/registration/?courseid=' . esc_attr( $training_session ) . '" class="btn btn-green">Register</a>';
+		$output .= '<a href="' . esc_url( home_url() ) . '/training/registration/?courseid=' . esc_attr( $training_session ) . '" class="button button--primary">Register</a>';
 		$output .= '</div>';
 	}
 
