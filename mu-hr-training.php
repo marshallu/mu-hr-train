@@ -361,9 +361,15 @@ function mu_hr_get_ticket() {
 function mu_hr_validate_cas_ticket( $ticket ) {
 	$validation_url = mu_hr_validation_url( $ticket );
 	$data           = wp_remote_get( $validation_url );
-	$xml            = simplexml_load_string( $data['body'] );
-	$xml            = $xml->children( 'http://www.yale.edu/tp/cas' );
-	$json           = wp_json_encode( $xml );
+	if ( is_wp_error( $data ) ) {
+		return false;
+	}
+	$xml = simplexml_load_string( $data['body'], 'SimpleXMLElement', LIBXML_NOENT | LIBXML_NONET );
+	if ( false === $xml ) {
+		return false;
+	}
+	$xml  = $xml->children( 'http://www.yale.edu/tp/cas' );
+	$json = wp_json_encode( $xml );
 	return json_decode( $json, false );
 }
 
@@ -420,7 +426,6 @@ function mu_hr_registration_check_cas() {
 
 		$can_access[] = get_field( 'mu_training_instructor', $training_session_id )['instructor_username'];
 		$can_access[] = get_field( 'mu_training_instructor', $training_session_id )['backup_instructor_username'];
-		$can_access[] = 'cmccomas';
 
 		if ( in_array( $cas_response->authenticationSuccess->user, $can_access, true ) ) { // phpcs:ignore
 			$can_access = array();

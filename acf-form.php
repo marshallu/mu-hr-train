@@ -219,7 +219,10 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		$email_body .= '</tr>';
 		$email_body .= '</table>';
 
-		$to = 'benefits@marshall.edu,' . get_field( 'muhr_registration_request_email', $post_id ) . ',' . get_field( 'muhr_registration_supervisor_email', $post_id );
+			$request_email = sanitize_email( get_field( 'muhr_registration_request_email', $post_id ) );
+		$supervisor_email  = sanitize_email( get_field( 'muhr_registration_supervisor_email', $post_id ) );
+		$to_addresses      = array_filter( array( 'benefits@marshall.edu', $request_email, $supervisor_email ), 'is_email' );
+		$to                = implode( ',', $to_addresses );
 
 		$headers   = array();
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
