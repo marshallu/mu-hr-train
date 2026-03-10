@@ -292,8 +292,8 @@ add_filter( 'query_vars', 'mu_hr_training_query_parameter' );
  * @return string
  */
 function mu_hr_cas_service_url() {
-	$current_url = 'https://' . trim( $_SERVER['HTTP_HOST'], '/' ) . '/' . ltrim( $_SERVER['REQUEST_URI'], '/' ); // phpcs:ignore
-	return rawurlencode( urldecode( $current_url ) );
+	$current_url = home_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '/' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	return rawurlencode( $current_url );
 }
 
 /**
@@ -328,7 +328,7 @@ function mu_hr_page_get_service_url_without_ticket() {
 	$query_string = '?';
 	foreach ( $query_string_parts as $key => $value ) {
 		if ( 'ticket' !== $key ) {
-			$query_string .= $key . '=' . $value . '&';
+			$query_string .= rawurlencode( $key ) . '=' . rawurlencode( $value ) . '&';
 		}
 	}
 	$query_string = rtrim( $query_string, '&' );
@@ -391,10 +391,9 @@ function mu_hr_validation_url( $ticket ) {
  */
 function mu_hr_registration_check_cas() {
 	if ( is_page( 'registered-list' ) ) {
-		if ( ! get_query_var( 'courseid' ) ) {
+		$training_session_id = absint( get_query_var( 'courseid' ) );
+		if ( ! $training_session_id ) {
 			return 'Sorry that course was not found.';
-		} else {
-			$training_session_id = get_query_var( 'courseid' );
 		}
 
 		require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';

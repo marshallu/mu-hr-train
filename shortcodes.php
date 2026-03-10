@@ -28,12 +28,12 @@ function mu_hr_registration_register_shortcode( $atts ) {
 
 	$html = '';
 
-	if ( ! get_query_var( 'courseid' ) ) {
+	if ( ! absint( get_query_var( 'courseid' ) ) ) {
 		return 'Sorry that course was not found.';
 	} else {
 
-		$training_session = get_post( get_query_var( 'courseid' ) );
-		$seats_total      = get_post_meta( get_query_var( 'courseid' ), 'mu_training_training_seats', true );
+		$training_session = get_post( absint( get_query_var( 'courseid' ) ) );
+		$seats_total      = get_post_meta( absint( get_query_var( 'courseid' ) ), 'mu_training_training_seats', true );
 
 		if ( get_field( 'mu_training_benefits_training', $training_session->ID ) ) {
 			$fields = array(
@@ -70,7 +70,7 @@ function mu_hr_registration_register_shortcode( $atts ) {
 				'numberposts' => -1,
 				'post_type'   => 'mu-registrations',
 				'meta_key'    => 'muhr_registration_training_session', // phpcs:ignore
-				'meta_value'  => get_query_var( 'courseid' ), // phpcs:ignore
+				'meta_value'  => absint( get_query_var( 'courseid' ) ), // phpcs:ignore
 			)
 		);
 
@@ -106,7 +106,7 @@ function mu_hr_registration_register_shortcode( $atts ) {
 				'fields'             => $fields,
 				'submit_value'       => 'Register',
 				'html_submit_button' => '<input type="submit" class="acf-button button button-primary button-large button--green" value="%s" />',
-				'html_after_fields'  => '<input type="hidden" name="acf[field_61ae470969cf8]" value="' . esc_attr( get_query_var( 'courseid' ) ) . '" />',
+				'html_after_fields'  => '<input type="hidden" name="acf[field_61ae470969cf8]" value="' . esc_attr( absint( get_query_var( 'courseid' ) ) ) . '" />',
 				'html_before_fields' => '<div class="w-full">' . do_shortcode( '[mu-hr-session-individual class="pb-12"]' ) . '</div>',
 			)
 		);
@@ -130,10 +130,10 @@ function mu_hr_registration_registration_list( $atts ) {
 		$atts
 	);
 
-	if ( ! get_query_var( 'courseid' ) ) {
+	if ( ! absint( get_query_var( 'courseid' ) ) ) {
 		return 'Sorry that course was not found.';
 	} else {
-		$training_session = get_post( get_query_var( 'courseid' ) );
+		$training_session = get_post( absint( get_query_var( 'courseid' ) ) );
 
 		$registrations = get_posts(
 			array(
@@ -149,7 +149,7 @@ function mu_hr_registration_registration_list( $atts ) {
 					),
 					'session_id' => array(
 						'key'   => 'muhr_registration_training_session',
-						'value' => get_query_var( 'courseid' ),
+						'value' => absint( get_query_var( 'courseid' ) ),
 					),
 				),
 				'orderby'     => array(
@@ -216,14 +216,14 @@ function mu_hr_registration_individual_session( $atts ) {
 		$atts
 	);
 
-	if ( ! get_query_var( 'courseid' ) ) {
+	if ( ! absint( get_query_var( 'courseid' ) ) ) {
 		if ( $data['session_id'] ) {
 			$session_id = $data['session_id'];
 		} else {
 			return 'This session could not be found.';
 		}
 	} else {
-		$session_id = get_query_var( 'courseid' );
+		$session_id = absint( get_query_var( 'courseid' ) );
 	}
 
 	$training_session = get_post( $session_id );
