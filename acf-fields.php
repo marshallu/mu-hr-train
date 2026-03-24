@@ -241,7 +241,7 @@ acf_add_local_field_group( array(
 		),
 		array(
 			'key' => 'field_623894d02453b',
-			'label' => 'Are you a 9 month faculty?',
+			'label' => 'Is this a 9 month Faculty?',
 			'name' => 'muhr_registration_nine_month',
 			'aria-label' => '',
 			'type' => 'true_false',
@@ -269,7 +269,7 @@ acf_add_local_field_group( array(
 		),
 		array(
 			'key' => 'field_623894e9ba43b',
-			'label' => 'How are you paid?',
+			'label' => 'How are they paid?',
 			'name' => 'muhr_registration_paid',
 			'aria-label' => '',
 			'type' => 'select',
@@ -296,7 +296,7 @@ acf_add_local_field_group( array(
 				'12 month' => '12 month',
 			),
 			'default_value' => false,
-			'allow_null' => 0,
+			'allow_null' => 1,
 			'multiple' => 0,
 			'ui' => 0,
 			'return_format' => 'value',
@@ -307,7 +307,7 @@ acf_add_local_field_group( array(
 		),
 		array(
 			'key' => 'field_6238953e6e111',
-			'label' => 'Are you transferring from another state agency that has PEIA?',
+			'label' => 'Are they transferring from another state agency that has PEIA?',
 			'name' => 'muhr_registration_transfer',
 			'aria-label' => '',
 			'type' => 'true_false',
@@ -355,7 +355,7 @@ acf_add_local_field_group( array(
 		),
 		array(
 			'key' => 'field_620fb40d7f536',
-			'label' => 'Name of Person Completing Request',
+			'label' => 'Name of Department Contact',
 			'name' => 'muhr_registration_request_name',
 			'aria-label' => '',
 			'type' => 'text',
@@ -375,7 +375,7 @@ acf_add_local_field_group( array(
 		),
 		array(
 			'key' => 'field_6238957c2d6b1',
-			'label' => 'Email of Person Completing Request',
+			'label' => 'Email of Department Contact',
 			'name' => 'muhr_registration_request_email',
 			'aria-label' => '',
 			'type' => 'email',

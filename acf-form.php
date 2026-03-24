@@ -184,7 +184,7 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 			$paid_label = $paid['choices'][ $paid['value'] ];
 		}
 
-		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">How Are You Paid?</td>';
+		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">How Are They Paid?</td>';
 		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( $paid_label ) . '</td>';
 		$email_body .= '</tr>';
 
@@ -195,22 +195,22 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 		}
 
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
-		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Are you transferring from another state agency that has PEIA?</td>';
+		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Are they transferring from another state agency that has PEIA?</td>';
 		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( $transfer ) . '</td>';
 		$email_body .= '</tr>';
 
 		if ( get_field( 'muhr_registration_previous_agency', $post_id ) ) {
 			$email_body .= '<tr style="border-bottom: 1px solid #999">';
-			$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Are you transferring from another state agency that has PEIA?</td>';
+			$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Are they transferring from another state agency that has PEIA?</td>';
 			$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( get_field( 'muhr_registration_previous_agency', $post_id ) ) . '</td>';
 			$email_body .= '</tr>';
 		}
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
-		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Name of Person Completing Request</td>';
+		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Name of Department Contact</td>';
 		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( get_field( 'muhr_registration_request_name', $post_id ) ) . '</td>';
 		$email_body .= '</tr>';
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
-		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Email of Person Completing Request</td>';
+		$email_body .= '<td style="font-weight: 600; line-height: 125%; padding: 10px 10px;" valign="top" width="50%">Email of Department Contact</td>';
 		$email_body .= '<td style="line-height: 125%; padding: 10px 10px;" valign="top" width="50%">' . esc_attr( get_field( 'muhr_registration_request_email', $post_id ) ) . '</td>';
 		$email_body .= '</tr>';
 		$email_body .= '<tr style="border-bottom: 1px solid #999">';
