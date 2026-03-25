@@ -3,49 +3,49 @@
 {% block content %}
 {% include 'partials/no-hero.twig' %}
 
-<div class="w-full xl:max-w-screen-xl px-6 xl:px-0 xl:mx-auto pt-4 lg:pt-12 pb-16">
-	<div class="flex flex-wrap mx-0 lg:-mx-6 px-0">
-		<div class="w-full lg:w-3/4 lg:px-6">
+<div class="muhr:w-full muhr:xl:max-w-screen-xl muhr:px-6 muhr:xl:px-0 muhr:xl:mx-auto muhr:pt-4 muhr:lg:pt-12 muhr:pb-16">
+	<div class="muhr:flex muhr:flex-wrap muhr:mx-0 muhr:lg:-mx-6 muhr:px-0">
+		<div class="muhr:w-full muhr:lg:w-3/4 muhr:lg:px-6">
 			<header class="page-header">
-				<h1 class="entry-title font-sans uppercase font-semibold text-gray-700 mb-4 text-3xl lg:text-4xl">{{ archive_title }}</h1>
+				<h1 class="entry-title muhr:font-sans muhr:uppercase muhr:font-semibold muhr:text-gray-700 muhr:mb-4 muhr:text-3xl muhr:lg:text-4xl">{{ archive_title }}</h1>
 			</header>
 
 			{% if sessions %}
 				{% for session in sessions %}
-					<div id="course{{ session.id }}" class="flex flex-col border-gray-100 border border-t border-b rounded my-6">
-						<div class="border-b border-gray-100 flex flex-row items-start py-4 px-4 lg:px-6">
-							<div class="flex-col flex w-12 lg:w-16 mx-auto">
-								<div class="bg-green text-white text-xl font-bold uppercase py-1 rounded-t text-center">{{ session.start_month }}</div>
-								<div class="bg-gray-100 text-sm lg:text-xl font-bold uppercase py-1 rounded-b text-center">{{ session.start_day }}</div>
+					<div id="course{{ session.id }}" class="muhr:flex muhr:flex-col muhr:border-gray-100 muhr:border muhr:border-t muhr:border-b muhr:rounded muhr:my-6">
+						<div class="muhr:border-b muhr:border-gray-100 muhr:flex muhr:flex-row muhr:items-start muhr:py-4 muhr:px-4 muhr:lg:px-6">
+							<div class="muhr:flex-col muhr:flex muhr:w-12 muhr:lg:w-16 muhr:mx-auto">
+								<div class="muhr:bg-green muhr:text-white muhr:text-xl muhr:font-bold muhr:uppercase muhr:py-1 muhr:rounded-t muhr:text-center">{{ session.start_month }}</div>
+								<div class="muhr:bg-gray-100 muhr:text-sm muhr:lg:text-xl muhr:font-bold muhr:uppercase muhr:py-1 muhr:rounded-b muhr:text-center">{{ session.start_day }}</div>
 							</div>
-							<div class="ml-4 lg:ml-6 flex-1">
+							<div class="muhr:ml-4 muhr:lg:ml-6 muhr:flex-1">
 								<div>
 									{% if session.seats_left > 0 %}
-										<a href="{{ session.registration_url }}" class="font-semibold">{{ session.title }}</a>
+										<a href="{{ session.registration_url }}" class="muhr:font-semibold">{{ session.title }}</a>
 									{% else %}
-										<span class="font-semibold">{{ session.title }}</span>
+										<span class="muhr:font-semibold">{{ session.title }}</span>
 									{% endif %}
 
 									{% if session.style == 'virtual' %}
-										<div class="text-sm"><span class="font-semibold">Location:</span> <a href="{{ session.training_url }}">Training Link</a></div>
+										<div class="muhr:text-sm"><span class="muhr:font-semibold">Location:</span> <a href="{{ session.training_url }}">Training Link</a></div>
 									{% elseif session.style == 'hybrid' %}
-										<div class="text-sm"><span class="font-semibold">Location:</span> {{ session.location }} and <a href="{{ session.training_url }}">{{ session.training_url }}</a></div>
+										<div class="muhr:text-sm"><span class="muhr:font-semibold">Location:</span> {{ session.location }} and <a href="{{ session.training_url }}">{{ session.training_url }}</a></div>
 									{% else %}
-										<div class="text-sm"><span class="font-semibold">Location:</span> {{ session.location }}</div>
+										<div class="muhr:text-sm"><span class="muhr:font-semibold">Location:</span> {{ session.location }}</div>
 									{% endif %}
 
-									<div class="text-sm">
+									<div class="muhr:text-sm">
 										{{ session.start_formatted }} - {{ session.end_formatted }} &middot;
-										<span class="font-semibold">{{ session.seats_left }}</span> spots remaining
+										<span class="muhr:font-semibold">{{ session.seats_left }}</span> spots remaining
 									</div>
-									<span class="hidden">Seats taken: {{ session.seats_taken }}</span>
+									<span class="muhr:hidden">Seats taken: {{ session.seats_taken }}</span>
 
-									<div class="text-sm">
-										<span class="font-semibold">Instructor:</span> {{ session.instructor_name }}
+									<div class="muhr:text-sm">
+										<span class="muhr:font-semibold">Instructor:</span> {{ session.instructor_name }}
 										(<a href="{{ session.instructor_url }}">Instructor Access</a>)
 									</div>
 
-									<div class="my-4">
+									<div class="muhr:my-4">
 										{% if session.course_description %}
 											{{ session.course_description|raw }}
 										{% else %}
@@ -54,11 +54,11 @@
 									</div>
 								</div>
 
-								<div class="mt-6">
+								<div class="muhr:mt-6">
 									{% if session.seats_left > 0 %}
 										<a href="{{ session.registration_url }}" class="button button--primary">Register</a>
 									{% else %}
-										<div class="mt-6 btn bg-gray-300 text-gray-500 cursor-not-allowed">Course Full</div>
+										<div class="muhr:mt-6 btn muhr:bg-gray-100 muhr:text-gray-700 muhr:cursor-not-allowed muhr:px-6 muhr:rounded-sm">Course Full</div>
 									{% endif %}
 								</div>
 							</div>
@@ -70,7 +70,7 @@
 			{% endif %}
 		</div>
 
-		<div class="w-full lg:w-1/4 lg:px-6 mt-6 lg:mt-0">
+		<div class="muhr:w-full muhr:lg:w-1/4 muhr:lg:px-6 muhr:mt-6 muhr:lg:mt-0">
 			{{ sidebar|raw }}
 		</div>
 	</div>

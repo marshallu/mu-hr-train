@@ -1,4 +1,4 @@
-@import "tailwindcss" prefix(muhrtrain);
+@import "tailwindcss" prefix(muhr);
 
 @custom-variant dark (&:is(.dark *));
 @custom-variant prefers-contrast (@media (prefers-contrast: more));
@@ -129,48 +129,48 @@
 }
 
 .acf-error-message {
-	@apply muhrtrain:font-bold muhrtrain:text-red-500;
+	@apply muhr:font-bold muhr:text-red-500;
 }
 
 #new-registration .acf-field {
-	@apply muhrtrain:grid muhrtrain:gap-4 muhrtrain:grid-cols-1 muhrtrain:w-full;
+	@apply muhr:grid muhr:gap-4 muhr:grid-cols-1 muhr:w-full;
 }
 
 #new-registration .acf-field .acf-label {
-	@apply muhrtrain:w-full;
+	@apply muhr:w-full;
 }
 
 #new-registration .acf-field .acf-input {
-	@apply muhrtrain:w-full;
+	@apply muhr:w-full;
 }
 
 .acf-fields.acf-form-fields {
-	@apply muhrtrain:flex muhrtrain:flex-col muhrtrain:items-center muhrtrain:w-full;
+	@apply muhr:flex muhr:flex-col muhr:items-center muhr:w-full;
 }
 
 .acf-form-submit {
-	@apply muhrtrain:mt-6 muhrtrain:text-center;
+	@apply muhr:mt-6 muhr:text-center;
 }
 
 @variant lg {
 	.acf-fields.acf-form-fields {
-		@apply muhrtrain:w-3/4 muhrtrain:mx-auto;
+		@apply muhr:w-3/4 muhr:mx-auto;
 	}
 
 	#new-registration .acf-field {
-		@apply muhrtrain:grid muhrtrain:gap-4 muhrtrain:grid-cols-2 muhrtrain:w-full;
+		@apply muhr:grid muhr:gap-4 muhr:grid-cols-2 muhr:w-full;
 	}
 
 	#new-registration .acf-field .acf-input {
-		@apply muhrtrain:ml-4;
+		@apply muhr:ml-4;
 	}
 
 	.acf-input-wrap {
-		/* @apply muhrtrain:px-4; */
+		/* @apply muhr:px-4; */
 	}
 
 	.acf-input-wrap input {
-		@apply muhrtrain:w-full;
+		@apply muhr:w-full;
 	}
 }
 
