@@ -53,6 +53,21 @@ function mu_hr_registration_submitted_registration( $post_id ) {
 
 	$training_session = get_post( get_field( 'muhr_registration_training_session', $post_id ) );
 
+	// ACF only saves fields listed in acf_form()'s 'fields' array; the training
+	// session is injected as a hidden input outside that list, so it may not be
+	// saved. Fall back to the courseid GET parameter from the submission URL.
+	if ( ! $training_session && ! empty( $_GET['courseid'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$course_id = absint( $_GET['courseid'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( $course_id ) {
+			update_field( 'muhr_registration_training_session', $course_id, $post_id );
+			$training_session = get_post( $course_id );
+		}
+	}
+
+	if ( ! $training_session ) {
+		return;
+	}
+
 	$course_name = $training_session->post_title;
 
 	if ( 'virtual' === get_field( 'mu_training_style', $training_session->ID ) ) {
