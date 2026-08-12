@@ -2,13 +2,13 @@
 /**
  * Custom shortcodes used by the plugin.
  *
- * @package MU HR Training
+ * @package Herd HR Training
  */
 
 /**
  * Get the autoload file.
  */
-require WP_PLUGIN_DIR . '/mu-hr-train/vendor/autoload.php';
+require WP_PLUGIN_DIR . '/herd-hr-train/vendor/autoload.php';
 
 
 /**

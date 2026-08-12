@@ -1,7 +1,7 @@
 {
 	"scripts": {
-	  "dev": "npx @tailwindcss/cli -i ./source/css/mu-hr-train.css -o ./css/mu-hr-train.css --watch",
-	  "build": "npx @tailwindcss/cli -i ./source/css/mu-hr-train.css -o ./css/mu-hr-train.css --minify"
+	  "dev": "npx @tailwindcss/cli -i ./source/css/herd-hr-train.css -o ./css/herd-hr-train.css --watch",
+	  "build": "npx @tailwindcss/cli -i ./source/css/herd-hr-train.css -o ./css/herd-hr-train.css --minify"
 	},
 	"devDependencies": {
 	  "@tailwindcss/cli": "^4.0.0",

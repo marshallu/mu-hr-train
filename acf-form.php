@@ -2,7 +2,7 @@
 /**
  * Functions required for ACF Registration Form
  *
- * @package MU HR Training
+ * @package Herd HR Training
  */
 
 /**

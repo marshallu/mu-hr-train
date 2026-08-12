@@ -33,7 +33,7 @@ This is a **WordPress plugin** for Marshall University HR training session manag
 
 | File | Purpose |
 |------|---------|
-| `mu-hr-training.php` | Plugin entry point; registers post types, taxonomy, Timber loader, enqueues assets |
+| `herd-hr-training.php` | Plugin entry point; registers post types, taxonomy, Timber loader, enqueues assets |
 | `acf-fields.php` | All ACF field group definitions for sessions and registrations |
 | `acf-form.php` | Registration form processing, CSRF handling, email notifications |
 | `editor.php` | Admin UI: custom columns, meta boxes, admin list customizations |
@@ -53,7 +53,7 @@ This is a **WordPress plugin** for Marshall University HR training session manag
 
 The plugin uses **Timber 2.x** (Twig templates) because the Marsha theme doesn't support traditional `get_header()`/`get_footer()` calls. Plugin templates must use `Timber::render()` with `Timber::context()`. See `docs/timber-template-pattern.md` for the full pattern.
 
-The plugin registers its template directory with Timber in `mu-hr-training.php`:
+The plugin registers its template directory with Timber in `herd-hr-training.php`:
 ```php
 add_filter('timber/locations', function($paths) { ... });
 ```
@@ -64,7 +64,7 @@ Registration list access is gated by CAS (auth.marshall.edu). The plugin validat
 
 ### CSS
 
-Tailwind source lives in `source/css/mu-hr-train.css`. Compiled output goes to `css/mu-hr-train.css`. The `phpcs.xml.dist` excludes `css/`, `js/`, `source/`, and `vendor/` from linting.
+Tailwind source lives in `source/css/herd-hr-train.css`. Compiled output goes to `css/herd-hr-train.css`. The `phpcs.xml.dist` excludes `css/`, `js/`, `source/`, and `vendor/` from linting.
 
 ### Email Notifications
 

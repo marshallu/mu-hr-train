@@ -1,2 +1,2 @@
-MU HR Training
+Herd HR Training
 ===

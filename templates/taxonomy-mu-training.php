@@ -2,7 +2,7 @@
 /**
  * Default template for displaying Training listings
  *
- * @package MU HR Training
+ * @package Herd HR Training
  */
 
 use Timber\Timber;

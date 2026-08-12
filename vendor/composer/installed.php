@@ -3,13 +3,22 @@
         'name' => 'marshallu/mu-hr-train',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '20477475ef648f0e5f97b6cea3919e6cf3b21ac0',
+        'reference' => '2e3f446eaa5bd69d00a4296352b1fada67290313',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'automattic/vipwpcs' => array(
+            'pretty_version' => '3.0.1',
+            'version' => '3.0.1.0',
+            'reference' => '2b1d206d81b74ed999023cffd924f862ff2753c8',
+            'type' => 'phpcodesniffer-standard',
+            'install_path' => __DIR__ . '/../automattic/vipwpcs',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'composer/installers' => array(
             'pretty_version' => 'v1.12.0',
             'version' => '1.12.0.0',
@@ -31,7 +40,7 @@
         'marshallu/mu-hr-train' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '20477475ef648f0e5f97b6cea3919e6cf3b21ac0',
+            'reference' => '2e3f446eaa5bd69d00a4296352b1fada67290313',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -84,6 +93,15 @@
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'sirbrillig/phpcs-variable-analysis' => array(
+            'pretty_version' => 'v2.13.0',
+            'version' => '2.13.0.0',
+            'reference' => 'a15e970b8a0bf64cfa5e86d941f5e6b08855f369',
+            'type' => 'phpcodesniffer-standard',
+            'install_path' => __DIR__ . '/../sirbrillig/phpcs-variable-analysis',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'squizlabs/php_codesniffer' => array(
             'pretty_version' => '3.13.5',

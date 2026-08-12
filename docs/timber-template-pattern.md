@@ -27,7 +27,7 @@ Plugin templates need to use `Timber::render()` instead, just like the theme's o
 
 ### Step 1 — Register the plugin's templates directory with Timber
 
-In your main plugin file (e.g. `mu-hr-training.php`), add a `timber/locations` filter so Timber can find your Twig files:
+In your main plugin file (e.g. `herd-hr-training.php`), add a `timber/locations` filter so Timber can find your Twig files:
 
 ```php
 add_filter(
@@ -104,10 +104,10 @@ Put your Twig file in `templates/` inside your plugin. Extend `base.twig` to get
 
 ---
 
-## Example: This Plugin (mu-hr-train)
+## Example: This Plugin (herd-hr-train)
 
 | File | Role |
 |---|---|
-| `mu-hr-training.php` | Registers `templates/` with Timber via `timber/locations` filter |
+| `herd-hr-training.php` | Registers `templates/` with Timber via `timber/locations` filter |
 | `templates/taxonomy-mu-training.php` | Queries posts, formats data, calls `Timber::render()` |
 | `templates/taxonomy-mu-training.twig` | Extends `base.twig`, renders training session cards |

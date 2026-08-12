@@ -2,7 +2,7 @@
 /**
  * Customization of the editor for Training and Sessions
  *
- * @package MU HR Training
+ * @package Herd HR Training
  */
 
 /**

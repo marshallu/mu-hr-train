@@ -1,15 +1,15 @@
 <?php
 /**
- * MU HR Training
+ * Herd HR Training
  *
  * Plugin to allow MU Human Resources to list trainings and allow individuals to register for training.
  *
- * @package  MU HR Training
+ * @package  Herd HR Training
  *
- * Plugin Name:  MU HR Training
+ * Plugin Name:  Herd HR Training
  * Plugin URI: https://www.marshall.edu
  * Description: Plugin to allow MU Human Resources to list trainings and allow individuals to register for training.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Author: Christopher McComas
  */
 
@@ -17,7 +17,7 @@ if ( ! class_exists( 'ACF' ) ) {
 	return new WP_Error( 'broke', __( 'Advanced Custom Fields is required for this plugin.', 'mu-hr-training' ) );
 }
 
-require WP_PLUGIN_DIR . '/mu-hr-train/vendor/autoload.php';
+require WP_PLUGIN_DIR . '/herd-hr-train/vendor/autoload.php';
 
 
 require plugin_dir_path( __FILE__ ) . '/acf-fields.php';
@@ -198,7 +198,7 @@ register_deactivation_hook( __FILE__, 'mu_hr_training_deactivate' );
  * Proper way to enqueue scripts and styles
  */
 function mu_hr_training_scripts() {
-	wp_enqueue_style( 'mu-hr-train', plugin_dir_url( __FILE__ ) . 'css/mu-hr-train.css', array(), filemtime( plugin_dir_path( __FILE__ ) . 'css/mu-hr-train.css' ), 'all' );
+	wp_enqueue_style( 'herd-hr-train', plugin_dir_url( __FILE__ ) . 'css/herd-hr-train.css', array(), filemtime( plugin_dir_path( __FILE__ ) . 'css/herd-hr-train.css' ), 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'mu_hr_training_scripts' );
 
