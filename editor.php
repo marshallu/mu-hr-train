@@ -119,20 +119,32 @@ add_filter( 'manage_mu-registrations_posts_columns', 'mu_hr_training_registratio
  * @param integer $post_id The ID of the post.
  */
 function mu_hr_training_registrations_custom_columns_data( $column, $post_id ) {
-	$session = get_field( 'muhr_registration_training_session', $post_id );
-
-	$session           = get_post( $session );
-	$course_day        = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_start_time', $session->ID ) )->format( 'F j, Y' );
-	$course_start_time = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_start_time', $session->ID ) )->format( 'g:i a' );
-	$course_end_time   = DateTime::createFromFormat( 'Y-m-d H:i:s', get_field( 'mu_training_end_time', $session->ID ) )->format( 'g:i a' );
-
-	$column_text = $session->post_title . ' on ' . $course_day . ' ' . $course_start_time . '-' . $course_end_time;
-
-	switch ( $column ) {
-		case 'session':
-			echo esc_attr( $column_text );
-			break;
+	if ( 'session' !== $column ) {
+		return;
 	}
+
+	$session = get_field( 'muhr_registration_training_session', $post_id );
+	$session = $session instanceof WP_Post ? $session : get_post( $session );
+
+	if ( ! $session instanceof WP_Post || 'mu-session' !== $session->post_type ) {
+		echo esc_attr__( 'Training session unavailable', 'mu-hr-training' );
+		return;
+	}
+
+	$start_value = get_field( 'mu_training_start_time', $session->ID );
+	$end_value   = get_field( 'mu_training_end_time', $session->ID );
+	$start       = is_string( $start_value ) ? @DateTime::createFromFormat( 'Y-m-d H:i:s', $start_value ) : false; // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+	$start_error = DateTime::getLastErrors();
+	$start_valid = $start && ( false === $start_error || ( 0 === $start_error['warning_count'] && 0 === $start_error['error_count'] ) );
+	$end         = is_string( $end_value ) ? @DateTime::createFromFormat( 'Y-m-d H:i:s', $end_value ) : false; // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+	$end_error   = DateTime::getLastErrors();
+	$end_valid   = $end && ( false === $end_error || ( 0 === $end_error['warning_count'] && 0 === $end_error['error_count'] ) );
+
+	$course_day        = $start_valid ? $start->format( 'F j, Y' ) : __( 'Date unavailable', 'mu-hr-training' );
+	$course_start_time = $start_valid ? $start->format( 'g:i a' ) : __( 'Time unavailable', 'mu-hr-training' );
+	$course_end_time   = $end_valid ? $end->format( 'g:i a' ) : __( 'Time unavailable', 'mu-hr-training' );
+
+	echo esc_attr( $session->post_title . ' on ' . $course_day . ' ' . $course_start_time . '-' . $course_end_time );
 }
 add_action( 'manage_mu-registrations_posts_custom_column', 'mu_hr_training_registrations_custom_columns_data', 10, 2 );
 
