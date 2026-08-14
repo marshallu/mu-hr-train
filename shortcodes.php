@@ -6,12 +6,6 @@
  */
 
 /**
- * Get the autoload file.
- */
-require WP_PLUGIN_DIR . '/herd-hr-train/vendor/autoload.php';
-
-
-/**
  * Show users the registration for or if full show a message apologizing the course is full.
  *
  * @param array $atts The array of attributes included with the shortcode.

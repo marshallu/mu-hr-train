@@ -17,9 +17,6 @@ if ( ! class_exists( 'ACF' ) ) {
 	return new WP_Error( 'broke', __( 'Advanced Custom Fields is required for this plugin.', 'mu-hr-training' ) );
 }
 
-require WP_PLUGIN_DIR . '/herd-hr-train/vendor/autoload.php';
-
-
 require plugin_dir_path( __FILE__ ) . '/acf-fields.php';
 require plugin_dir_path( __FILE__ ) . '/acf-form.php';
 require plugin_dir_path( __FILE__ ) . '/editor.php';
@@ -395,8 +392,6 @@ function mu_hr_registration_check_cas() {
 		if ( ! $training_session_id ) {
 			return 'Sorry that course was not found.';
 		}
-
-		require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 		if ( ! mu_hr_ticket_present() ) {
 			$login_url = mu_hr_get_login_url();
